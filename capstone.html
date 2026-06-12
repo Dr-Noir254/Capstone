@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ujima Digital Pride - Live Agent Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        savannah: { 50: '#fbf9f4', 100: '#f4ebd6', 200: '#e5d1a5', 500: '#c59d43', 800: '#7a5a1c', 900: '#4a360f' },
+                        forest: { 50: '#f2f7f4', 100: '#e1ede7', 500: '#2d6a4f', 800: '#1b4332', 950: '#081c15' },
+                        clay: { 500: '#b05e3b' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1b4332; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c59d43; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-forest-950 text-gray-100 font-sans min-h-screen flex flex-col antialiased">
+
+    <header class="border-b border-forest-800 bg-forest-950/90 backdrop-blur p-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-savannah-500 text-forest-950 p-2 rounded-lg font-bold text-lg tracking-wider">🦁 UJIMA</div>
+                <div>
+                    <h1 class="text-md font-bold text-white flex items-center gap-2">
+                        Phase 4: Multi-Agent Triage Simulator
+                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-2 py-0.5 rounded-full font-mono">SASRA Compliant</span>
+                    </h1>
+                    <p class="text-xs text-gray-400">Interactive testing environment for evaluating RANK constraints & local data sovereignty paths</p>
+                </div>
+            </div>
+            <div class="bg-forest-900 border border-forest-800 p-2 rounded-xl flex gap-4 text-xs">
+                <div class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Engine: Active</div>
+                <div class="text-gray-400 font-mono">Storage: AWS Cape Town</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <div class="lg:col-span-5 space-y-6">
+            <div class="bg-forest-900/40 p-5 rounded-2xl border border-forest-800 space-y-4 shadow-xl">
+                <h2 class="text-xs font-bold text-savannah-500 tracking-wide uppercase font-mono border-b border-forest-800 pb-2">1. Select Target Applicant Profile</h2>
+                
+                <div class="space-y-3">
+                    <button onclick="selectProfile('grace')" id="profile-grace" class="profile-card w-full text-left p-3 rounded-xl border border-forest-800 bg-forest-950/40 hover:bg-forest-800/20 transition-all">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-white text-sm">Grace (Maize Farmer)</span>
+                            <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded font-mono">High Alignment</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">Kakamega County &bull; Harvest Peak: Oct/Nov &bull; KES 28,000</p>
+                    </button>
+
+                    <button onclick="selectProfile('aminata')" id="profile-aminata" class="profile-card w-full text-left p-3 rounded-xl border border-forest-800 bg-forest-950/40 hover:bg-forest-800/20 transition-all">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-white text-sm">Aminata (Shea Butter Vendor)</span>
+                            <span class="text-[10px] bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded font-mono">Irregular Cashflow</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">Busia Border Zone &bull; 4 Dependents &bull; KES 12,000</p>
+                    </button>
+
+                    <button onclick="selectProfile('joshua')" id="profile-joshua" class="profile-card w-full text-left p-3 rounded-xl border border-forest-800 bg-forest-950/40 hover:bg-forest-800/20 transition-all">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-white text-sm">Joshua (Matooke Trader)</span>
+                            <span class="text-[10px] bg-red-500/10 text-red-400 px-1.5 py-0.5 rounded font-mono">Predation Flag</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">Kisumu Sub-county &bull; Mentions Loan Sharks &bull; KES 18,000</p>
+                    </button>
+                </div>
+
+                <div class="pt-3 border-t border-forest-800 space-y-2">
+                    <div class="flex justify-between items-center"><label class="text-xs text-gray-400 font-mono">Active USSD / SMS Communication String:</label></div>
+                    <textarea id="custom-sms" rows="3" class="w-full bg-forest-950 text-xs border border-forest-800 rounded-lg p-2.5 text-white focus:ring-1 focus:ring-savannah-500 focus:outline-none"></textarea>
+                </div>
+
+                <button onclick="runSimulation()" class="w-full bg-savannah-500 hover:bg-savannah-600 text-forest-950 font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider font-mono transition-all flex items-center justify-center gap-2">
+                    ⚡ Execute Agent Scoring Protocol
+                </button>
+            </div>
+
+            <div class="bg-forest-900/40 p-5 rounded-2xl border border-forest-800 space-y-3 shadow-xl">
+                <h3 class="text-xs font-bold text-emerald-400 tracking-wide uppercase font-mono border-b border-forest-800 pb-2">Kenya DPA 2022 Sovereignty Vault</h3>
+                <div class="space-y-2 text-[11px] font-mono">
+                    <div class="bg-forest-950 p-2 rounded border border-forest-800">
+                        <span class="text-gray-500 block text-[9px]">Sovereign Archive (Anonymized Data Ledger)</span>
+                        <span id="path-public" class="text-emerald-400 block break-all">/artifacts/ujima-v2/public/data/conversations</span>
+                    </div>
+                    <div class="bg-forest-950 p-2 rounded border border-forest-800">
+                        <span class="text-gray-500 block text-[9px]">Encrypted PII Safe Vault (Strict Sovereign Boundary)</span>
+                        <span id="path-private" class="text-emerald-400 block break-all">/artifacts/ujima-v2/users/usr_grace_42/loan_state</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-7 flex flex-col h-full min-h-[550px]">
+            <div class="bg-forest-900/30 border border-forest-800 p-5 rounded-2xl flex-grow flex flex-col shadow-2xl">
+                <div class="flex justify-between items-center border-b border-forest-800 pb-4 mb-4">
+                    <h3 class="text-xs font-bold text-white tracking-wide uppercase font-mono flex items-center gap-2">
+                        <span class="h-2 w-2 rounded-full bg-amber-400 animate-ping"></span> Live Multi-Agent Pipeline Trace
+                    </h3>
+                    <button onclick="clearLogs()" class="text-[10px] text-gray-500 hover:text-gray-300 font-mono">Reset Monitor</button>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 mb-4">
+                    <div id="state-scout" class="bg-forest-950 p-2 rounded-xl border border-forest-800 text-center">
+                        <span class="text-[9px] text-gray-500 block font-mono">SCOUT AGENT</span>
+                        <span id="status-scout" class="text-xs font-bold text-gray-400 mt-0.5 block">IDLE</span>
+                    </div>
+                    <div id="state-guardian" class="bg-forest-950 p-2 rounded-xl border border-forest-800 text-center">
+                        <span class="text-[9px] text-gray-500 block font-mono">GUARDIAN AGENT</span>
+                        <span id="status-guardian" class="text-xs font-bold text-gray-400 mt-0.5 block">IDLE</span>
+                    </div>
+                    <div id="state-hunter" class="bg-forest-950 p-2 rounded-xl border border-forest-800 text-center">
+                        <span class="text-[9px] text-gray-500 block font-mono">HUNTER AGENT</span>
+                        <span id="status-hunter" class="text-xs font-bold text-gray-400 mt-0.5 block">IDLE</span>
+                    </div>
+                </div>
+
+                <div id="sim-console" class="bg-forest-950 border border-forest-800/80 rounded-xl p-4 flex-grow font-mono text-xs text-emerald-400 overflow-y-auto max-h-[260px] space-y-1.5 custom-scrollbar">
+                    <span class="text-gray-500 block">&gt; System active. Awaiting trigger event...</span>
+                </div>
+
+                <div id="decision-panel" class="hidden mt-4 bg-forest-950 border border-forest-800 rounded-xl p-4 space-y-3 shadow-inner">
+                    <div class="flex justify-between items-center border-b border-forest-800 pb-1.5">
+                        <h4 class="font-bold text-white text-xs uppercase font-mono">Triage Execution Packet</h4>
+                        <span id="badge-decision" class="text-[9px] px-2 py-0.5 rounded font-bold uppercase"></span>
+                    </div>
+                    <p id="text-decision-explanation" class="text-xs text-gray-400 leading-relaxed"></p>
+                    
+                    <div class="bg-forest-900/40 p-2.5 rounded border border-forest-800 text-xs">
+                        <span class="text-[10px] text-gray-500 block font-mono">DIGNITY FILTER GENERATION:</span>
+                        <p id="text-dignity-feedback" class="text-savannah-500 mt-0.5 italic"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-forest-800 py-4 text-center text-[11px] text-gray-500">
+        &copy; 2026 Ujima Cooperative Financial Systems &bull; Powered by AWS Africa
+    </footer>
+
+    <script>
+        const profiles = {
+            grace: { name: "Grace", crop: "Maize", harvest_months: "Oct/Nov", sms: "Need funds to secure quality seeds and organic fertilizers before the October planting season starts.", userId: "usr_grace_42" },
+            aminata: { name: "Aminata", crop: "Shea Butter Vendor", harvest_months: "Year-Round", sms: "Can I borrow money for transport to carry product inventory to the border market? Business is dry right now, but will rebound once border permits clear next month.", userId: "usr_aminata_38" },
+            joshua: { name: "Joshua", crop: "Matooke", harvest_months: "March/April & Sept/Oct", sms: "The harvest is fine, but local brokers are squeezing my margins. Need cash now to pay child fees, otherwise the local lender here threatens to seize my bicycle.", userId: "usr_joshua_45" }
+        };
+
+        let selectedProfileId = 'grace';
+
+        function selectProfile(profileKey) {
+            selectedProfileId = profileKey;
+            
+            // Corrected standard classList API calls
+            document.querySelectorAll('.profile-card').forEach(card => {
+                card.classList.remove('border-savannah-500', 'bg-forest-800/20');
+                card.classList.add('border-forest-800', 'bg-forest-950/40');
+            });
+            
+            const el = document.getElementById(`profile-${profileKey}`);
+            if (el) {
+                el.classList.remove('border-forest-800', 'bg-forest-950/40');
+                el.classList.add('border-savannah-500', 'bg-forest-800/20');
+            }
+            
+            document.getElementById('custom-sms').value = profiles[profileKey].sms;
+            document.getElementById('path-private').innerText = `/artifacts/ujima-v2/users/${profiles[profileKey].userId}/loan_state`;
+        }
+
+        function logToConsole(msg, type='info') {
+            const el = document.getElementById('sim-console');
+            let color = 'text-emerald-400';
+            if (type === 'warn') color = 'text-amber-400';
+            if (type === 'error') color = 'text-red-400';
+            if (type === 'success') color = 'text-emerald-300 font-bold';
+            el.innerHTML += `<div class="${color}">&gt; ${msg}</div>`;
+            el.scrollTop = el.scrollHeight;
+        }
+
+        function clearLogs() {
+            document.getElementById('sim-console').innerHTML = `<span class="text-gray-500 block">&gt; Monitor reset. Ready.</span>`;
+            document.getElementById('decision-panel').classList.add('hidden');
+        }
+
+        function runSimulation() {
+            const sms = document.getElementById('custom-sms').value;
+            const profile = profiles[selectedProfileId];
+            if (!sms.trim()) return logToConsole("Error: Missing input communication data.", "error");
+
+            clearLogs();
+            
+            const sScout = document.getElementById('status-scout'), bScout = document.getElementById('state-scout');
+            const sGuard = document.getElementById('status-guardian'), bGuard = document.getElementById('state-guardian');
+            const sHunt = document.getElementById('status-hunter'), bHunt = document.getElementById('state-hunter');
+
+            // 1. SCOUT PHASE
+            logToConsole(`Activating Scout Agent...`);
+            sScout.innerText = "PARSING";
+            bScout.className = "bg-savannah-500/20 p-2 rounded-xl border border-savannah-500 text-center animate-pulse";
+            
+            setTimeout(() => {
+                let triggerAlert = sms.toLowerCase().includes("loan shark") || sms.toLowerCase().includes("lender");
+                if(triggerAlert) logToConsole(`[FLAG ALERT] Predatory finance indicators captured by Scout.`, 'warn');
+                logToConsole(`Scout complete. Transferring context payload to Guardian Agent.`);
+                sScout.innerText = "IDLE"; bScout.className = "bg-forest-950 p-2 rounded-xl border border-forest-800 text-center";
+
+                // 2. GUARDIAN PHASE
+                sGuard.innerText = "AUDITING";
+                bGuard.className = "bg-emerald-500/20 p-2 rounded-xl border border-emerald-500 text-center animate-pulse";
+                logToConsole(`Guardian Agent performing automated bias check...`);
+                
+                setTimeout(() => {
+                    logToConsole(`Cross-referencing applicant cycle with seasonal [${profile.harvest_months}] cash timelines...`);
+                    let approved = profile.crop === "Maize" && !triggerAlert;
+                    
+                    if(approved) {
+                        logToConsole(`Guardian Verification Successful: Cash volatility corresponds to crop cycle. Rules match SASRA frameworks.`, 'success');
+                    } else {
+                        logToConsole(`Guardian Warning: Dynamic pause rule triggered. Diverting transaction from direct automated logic tree.`, 'warn');
+                    }
+                    sGuard.innerText = "IDLE"; bGuard.className = "bg-forest-950 p-2 rounded-xl border border-forest-800 text-center";
+
+                    // 3. HUNTER PHASE
+                    sHunt.innerText = "PACKAGING";
+                    bHunt.className = "bg-clay-500/20 p-2 rounded-xl border border-clay-500 text-center animate-pulse";
+                    logToConsole(`Hunter Agent assembling background review files...`);
+                    
+                    setTimeout(() => {
+                        let officer = profile.crop === "Shea Butter Vendor" ? "Officer Robert (Border Trade Desk)" : "Officer Sarah (Rural Agricultural Desk)";
+                        logToConsole(`Hunter matched file packet to Human Specialist: [${officer}]. Context handoff complete.`, 'success');
+                        sHunt.innerText = "IDLE"; bHunt.className = "bg-forest-950 p-2 rounded-xl border border-forest-800 text-center";
+
+                        // Final Card Updates
+                        const panel = document.getElementById('decision-panel');
+                        const badge = document.getElementById('badge-decision');
+                        panel.classList.remove('hidden');
+
+                        if (approved) {
+                            badge.innerText = "AUTO APPROVED"; badge.className = "text-[9px] px-2 py-0.5 rounded font-bold bg-emerald-500/20 text-emerald-400 font-mono";
+                            document.getElementById('text-decision-explanation').innerText = `Automated verification completed. Credit lines calibrated directly against upcoming maize harvesting cycles.`;
+                            document.getElementById('text-dignity-feedback').innerText = `"Grace, your repayment schedule is anchored to your harvest timelines when your liquidity spikes. Your work forms our foundation."`;
+                        } else {
+                            badge.innerText = "HUMAN IN LOOP ESCALATION"; badge.className = "text-[9px] px-2 py-0.5 rounded font-bold bg-amber-500/20 text-amber-400 font-mono";
+                            document.getElementById('text-decision-explanation').innerText = `Automated decisioning suspended. File routed directly to ${officer} to design a safe, localized credit arrangement.`;
+                            document.getElementById('text-dignity-feedback').innerText = `"We are reviewing your unique seasonal trading patterns alongside our local human credit team to design an optimal, secure path forward."`;
+                        }
+                    }, 1000);
+                }, 1200);
+            }, 900);
+        }
+        window.onload = () => selectProfile('grace');
+    </script>
+</body>
+</html>
